@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "sourceMap": true,
+        "declaration": true,
+        "stripInternal": true,
+        "outDir": "../out/",
+        "strictNullChecks": true,
+        "types": ["node"]
+    }
+}
