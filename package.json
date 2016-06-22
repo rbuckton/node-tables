@@ -1,9 +1,10 @@
 {
-  "name": "@rbuckton/tables",
+  "name": "tables",
   "version": "0.1.0",
   "description": "CLI table output formatter",
   "main": "out/lib/index.js",
   "typings": "out/lib/index.d.ts",
+  "private": true,
   "dependencies": {
     "iterable-query": "^0.1.0"
   },
@@ -24,7 +25,7 @@
     "typescript": "next"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp",
     "gulp": "gulp"
   },
   "author": "Ron Buckton <rbuckton@chronicles.org>",
