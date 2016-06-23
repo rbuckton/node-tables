@@ -1,10 +1,9 @@
 {
-  "name": "tables",
+  "name": "table-style",
   "version": "0.1.0",
   "description": "CLI table output formatter",
   "main": "out/lib/index.js",
   "typings": "out/lib/index.d.ts",
-  "private": true,
   "dependencies": {
     "iterable-query": "^0.1.0"
   },
@@ -27,6 +26,9 @@
   "scripts": {
     "build": "gulp",
     "gulp": "gulp"
+  },
+  "engines": {
+    "node": ">=6.0.0"
   },
   "author": "Ron Buckton <rbuckton@chronicles.org>",
   "license": "Apache-2.0"

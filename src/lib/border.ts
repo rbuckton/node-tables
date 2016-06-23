@@ -7,7 +7,7 @@ export class Border {
     static readonly single = new Border("single");
     static readonly double = new Border("double");
     static readonly none = new Border("none");
-    static readonly default = Border.none;
+    static readonly defaultTableBorder = Border.from({ outside: "single", vertical: "single" });
 
     readonly top: BorderStyle;
     readonly bottom: BorderStyle;
@@ -17,12 +17,12 @@ export class Border {
     readonly vertical: BorderStyle;
 
     constructor();
-    constructor(all: BorderStyle);
-    constructor(horizontal: BorderStyle, vertical: BorderStyle);
-    constructor(top: BorderStyle, vertical: BorderStyle, bottom: BorderStyle);
-    constructor(top: BorderStyle, right: BorderStyle, bottom: BorderStyle, left: BorderStyle);
-    constructor(top: BorderStyle, right: BorderStyle, bottom: BorderStyle, left: BorderStyle, inside: BorderStyle);
-    constructor(top: BorderStyle, right: BorderStyle, bottom: BorderStyle, left: BorderStyle, horizontal: BorderStyle, vertical: BorderStyle);
+    constructor(all: BorderStyle | undefined);
+    constructor(horizontal: BorderStyle | undefined, vertical: BorderStyle | undefined);
+    constructor(top: BorderStyle | undefined, vertical: BorderStyle | undefined, bottom: BorderStyle | undefined);
+    constructor(top: BorderStyle | undefined, right: BorderStyle | undefined, bottom: BorderStyle | undefined, left: BorderStyle | undefined);
+    constructor(top: BorderStyle | undefined, right: BorderStyle | undefined, bottom: BorderStyle | undefined, left: BorderStyle | undefined, inside: BorderStyle | undefined);
+    constructor(top: BorderStyle | undefined, right: BorderStyle | undefined, bottom: BorderStyle | undefined, left: BorderStyle | undefined, horizontal: BorderStyle | undefined, vertical: BorderStyle | undefined);
     constructor(top: BorderStyle = "inherit", right: BorderStyle = "inherit", bottom: BorderStyle = "inherit", left: BorderStyle = "inherit", horizontal: BorderStyle = "inherit", vertical: BorderStyle = "inherit") {
         switch (arguments.length) {
             case 1: // top+right+bottom+left+horizontal+vertical
@@ -65,7 +65,7 @@ export class Border {
         }
     }
 
-    static fromObject(border: BorderDefinition | string) {
+    static from(border: BorderDefinition | string) {
         if (typeof border === "string") {
             return this.parse(border);
         }
@@ -74,14 +74,14 @@ export class Border {
             return border;
         }
 
-        const { top, right, bottom, left, horizontal, vertical } = border;
+        const { top, right, bottom, left, horizontal, vertical, all, outside, inside } = border;
         return new Border(
-            top || "inherit",
-            right || "inherit",
-            bottom || "inherit",
-            left || "inherit",
-            horizontal || "inherit",
-            vertical || "inherit"
+            top || outside || all || "inherit",
+            right || outside || all || "inherit",
+            bottom || outside || all || "inherit",
+            left || outside || all || "inherit",
+            horizontal || inside || all || "inherit",
+            vertical || inside || all || "inherit"
         );
     }
 
@@ -113,7 +113,22 @@ export class Border {
         return boxLineChars.charAt(getBoxLine("none", "none", vertical, vertical));
     }
 
-    updateWith(definition: BorderDefinition) {
+    static equals(x: Border | undefined, y: Border | undefined) {
+        return x === y || (x !== undefined && x.equalTo(y));
+    }
+
+    equalTo(other: Border | undefined) {
+        return this === other
+            || (other !== undefined
+                && this.top === other.top
+                && this.right === other.right
+                && this.bottom === other.bottom
+                && this.left === other.left
+                && this.horizontal === other.horizontal
+                && this.vertical === other.vertical);
+    }
+
+    updateFrom(definition: BorderDefinition) {
         const { top = this.top, right = this.right, bottom = this.bottom, left = this.left, horizontal = this.horizontal, vertical = this.vertical } = definition;
         return this.update(top, right, bottom, left, horizontal, vertical);
     }
@@ -143,7 +158,7 @@ export class Border {
     }
 
     asTableBorder() {
-        return this.inherit(Border.default);
+        return this.inherit(Border.defaultTableBorder);
     }
 
     asGroupBorder() {
@@ -193,14 +208,14 @@ export class Border {
     adjustToAbove(aboveLeft: Border | undefined, aboveRight: Border | undefined) {
         let border: Border = this;
         if (aboveLeft) {
-            border = border.updateWith({
+            border = border.updateFrom({
                 top: chooseSharedBorder(aboveLeft.bottom, this.top),
                 left: chooseContiguousBorder(aboveLeft.left, this.left),
                 vertical: chooseContiguousBorder(aboveLeft.vertical, this.vertical)
             });
         }
         if (aboveRight) {
-            border = border.updateWith({
+            border = border.updateFrom({
                 top: chooseSharedBorder(aboveRight.bottom, this.top),
                 right: chooseContiguousBorder(aboveRight.right, this.right),
                 vertical: chooseContiguousBorder(aboveRight.vertical, this.vertical)
@@ -212,14 +227,14 @@ export class Border {
     adjustToLeft(leftTop: Border | undefined, leftBottom: Border | undefined) {
         let border: Border = this;
         if (leftTop) {
-            border = border.updateWith({
+            border = border.updateFrom({
                 top: chooseContiguousBorder(leftTop.top, this.top),
                 left: chooseSharedBorder(leftTop.right, this.left),
                 horizontal: chooseContiguousBorder(leftTop.horizontal, this.horizontal)
             });
         }
         if (leftBottom) {
-            border = border.updateWith({
+            border = border.updateFrom({
                 bottom: chooseContiguousBorder(leftBottom.bottom, this.bottom),
                 left: chooseSharedBorder(leftBottom.right, this.left),
                 horizontal: chooseContiguousBorder(leftBottom.horizontal, this.horizontal)

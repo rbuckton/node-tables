@@ -19,7 +19,7 @@ export class TableGroup<T> {
         const { header, footer, by } = definition;
         this.table = table;
         this.depth = depth;
-        this.style = Style.fromObject(definition).asGroupStyle();
+        this.style = Style.from(definition).asGroupStyle();
         this._header = header;
         this._footer = footer;
         this._by = by;

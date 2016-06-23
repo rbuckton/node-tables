@@ -1,39 +1,31 @@
 import * as table from "../lib";
 
-interface User {
+interface Person {
     name: string;
     age: number;
-    gender: "M" | "F";
+    title: string;
 }
 
-const t = new table.Table<User>({
-    border: {
-        top: "single",
-        bottom: "single",
-        left: "single",
-        right: "single",
-        horizontal: "none",
-        vertical: "single"
-    },
+const t = new table.Table<Person>({
     columns: [
         { header: "name", expression: x => x.name, border: "double" },
         { header: "age", expression: x => x.age }
     ],
-    groups: [
+    group: [
         { by: x => x.age },
-        { by: x => x.gender }
+        { by: x => x.title }
     ],
     groupStyles: [
         { depth: 0, backgroundColor: "cyan", foregroundColor: "black" },
         { depth: 1, backgroundColor: "green", foregroundColor: "white" }
-    ],
-    rowStyles: [
-        { section: ["group", "header"], border: "single" }
     ]
 });
 
 t.render([
-    { name: "John", age: 25, gender: "M" },
-    { name: "Mary", age: 25, gender: "F" },
-    { name: "Bob", age: 26, gender: "M" }
+    { name: "John", age: 25, title: "Design" },
+    { name: "Mary", age: 25, title: "Development" },
+    { name: "Anne", age: 27, title: "Test" },
+    { name: "Bob", age: 26, title: "Test" }
 ], process.stdout);
+
+new table.Table<boolean>({}).render([true, false], process.stdout);

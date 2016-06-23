@@ -1,50 +1,55 @@
-import { ReadonlyCollection, TableColumnDefinition, TableColumnSection } from "./types";
-import { Style, StyleDefinition } from "./style";
+import { ReadonlyCollection, ReadonlyClassNames, TableColumnDefinition, TableColumnClassName } from "./types";
+import { Style, StyleDefinition, ClassNames } from "./style";
 import { Size, } from "./size";
 import { Table } from "./table";
 import { maxInt32, minMax } from "./utils";
 
-export { TableColumnDefinition, TableColumnSection } from "./types";
+export { TableColumnDefinition, TableColumnClassName } from "./types";
 
 export class TableColumn<T> {
     readonly table: Table<T>;
     readonly style: Style;
     readonly header: string | undefined;
     readonly footer: string | undefined;
+    readonly width: Size;
     readonly maxWidth: number;
     readonly minWidth: number;
     readonly key: any;
-    readonly sections: ReadonlyCollection<TableColumnSection>;
+    readonly className: string;
+    readonly classNames: ReadonlyCollection<TableColumnClassName>;
     readonly columnIndex: number;
 
+    /*@internal*/ readonly _classNames: ReadonlyClassNames<TableColumnClassName>;
+    /*@internal*/ _additionalWidthForGroupLabel: number = 0;
+    /*@internal*/ _minWidth: number = -1;
+    /*@internal*/ _maxWidth: number = maxInt32;
     /*@internal*/ _desiredWidth: number = -1;
     /*@internal*/ _actualWidth: number = -1;
     /*@internal*/ _actualStyle: Style | undefined;
-    /*@internal*/ _width: Size;
 
     private _expression: ((x: T, key: any) => any) | undefined;
-    private _sections: Set<TableColumnSection> | undefined;
+    private _sections: Set<TableColumnClassName> | undefined;
 
-    constructor(table: Table<T>, columnIndex: number, sections: ReadonlyCollection<TableColumnSection>, definition: TableColumnDefinition<T>) {
+    constructor(table: Table<T>, columnIndex: number, classNames: ReadonlyCollection<TableColumnClassName>, definition: TableColumnDefinition<T>) {
         const { header, footer, maxWidth = maxInt32, minWidth = 0, width = "auto", key, expression } = definition;
         this.table = table;
         this.columnIndex = columnIndex;
-        this.sections = sections;
-        this.style = Style.fromObject(definition).asColumnStyle();
+        this.classNames = classNames;
+        this._classNames = new ClassNames(classNames);
+        this.className = this._classNames.toString();
+        this.style = Style.from(definition).asColumnStyle();
         this.header = header;
         this.footer = footer;
         this.key = key;
+        this.minWidth = minMax(minWidth, 1, maxInt32);
+        this._minWidth = this.minWidth;
         this.maxWidth = minMax(maxWidth, 1, maxInt32);
-        this.minWidth = minMax(minWidth, 0, maxInt32);
-        this._width = typeof width === "object" ? width : Size.parse(width);
+        this._maxWidth = this.maxWidth;
+        this.width = typeof width === "object" ? width : Size.parse(width);
         this._expression = expression;
         if (this.width.isFixed) {
             this._desiredWidth = this.width.value;
         }
-    }
-
-    get width(): Size {
-        return this._width;
     }
 
     getText(x: T | undefined | null): string {
@@ -65,9 +70,9 @@ export class TableColumn<T> {
         return "" + value;
     }
 
-    isInSection(section: TableColumnSection) {
+    isInSection(section: TableColumnClassName) {
         if (!this._sections) {
-            this._sections = new Set(this.sections);
+            this._sections = new Set(this.classNames);
         }
 
         return this._sections.has(section);
