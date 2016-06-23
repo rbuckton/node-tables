@@ -6,7 +6,9 @@ import { TableRow } from "./row";
 import { TableCell } from "./cell";
 
 export type BorderStyle = "single" | "double" | "inherit" | "none";
-export type Color = "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "white" | "gray" | "dark-gray" | "inherit";
+export type DarkColor = "dark-red" | "dark-green" | "dark-yellow" | "dark-blue" | "dark-magenta" | "dark-gray" | "dark-white";
+export type BrightColor = "bright-red" | "bright-green" | "bright-yellow" | "bright-blue" | "bright-magenta" | "bright-gray" | "bright-white";
+export type Color = "black" | "red" | "green" | "yellow" | "blue" | "magenta" | "cyan" | "gray" | "white" | DarkColor | BrightColor | "inherit";
 export type HorizontalAlignment = "left" | "right" | "center" | "inherit";
 export type VerticalAlignment = "top" | "bottom" | "middle" | "inherit";
 export type TableColumnClassName = "first-column" | "last-column" | "even-column" | "odd-column";
@@ -115,6 +117,7 @@ export interface TableColumnDefinition<T> {
 export interface TableColumnStyleDefinition<T> {
     className?: string;
     classNames?: TableColumnClassName[];
+    key?: any;
     match?: (key: any, column: TableColumn<T>) => boolean;
     border?: TableColumnBorderDefinition | string;
     align?: HorizontalAlignment;
@@ -146,6 +149,7 @@ export interface TableRowStyleDefinition<T> {
 export interface TableCellStyleDefinition<T> {
     className?: string;
     classNames?: TableCellClassName[];
+    key?: any;
     match?: (dataItem: T, columnKey: any, cell: TableCell<T>) => boolean;
     align?: HorizontalAlignment;
     verticalAlign?: VerticalAlignment;

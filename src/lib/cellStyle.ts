@@ -9,6 +9,7 @@ export { TableCellStyleDefinition, TableCellClassName } from "./types";
 export class TableCellStyle<T> {
     readonly table: Table<T>;
     readonly style: Style;
+    readonly key: any;
     readonly classNames: ReadonlyCollection<TableCellClassName>;
     readonly canMatch: boolean;
 
@@ -17,12 +18,13 @@ export class TableCellStyle<T> {
     private _match: ((dataItem: T, columnKey: any, cell: TableCell<T>) => boolean) | undefined;
 
     constructor(table: Table<T>, definition: TableCellStyleDefinition<T>) {
-        const { match } = definition;
+        const { key, match } = definition;
         this.table = table;
         this.style = Style.from(definition).updateFrom({ border: Border.inherit }).asCellStyle();
         this._classNames = fromClassNames(validTableCellClassName, definition);
         this.classNames = this._classNames.toArray();
         this.canMatch = typeof match === "function";
+        this.key = key;
         this._match = match;
     }
 

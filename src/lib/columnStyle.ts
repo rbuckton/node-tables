@@ -10,6 +10,7 @@ export class TableColumnStyle<T> {
     readonly style: Style;
     readonly className: string;
     readonly classNames: ReadonlyCollection<TableColumnClassName>;
+    readonly key: any;
     readonly canMatch: boolean;
 
     /*@internal*/ _classNames: ReadonlyClassNames<TableColumnClassName>;
@@ -17,13 +18,14 @@ export class TableColumnStyle<T> {
     private _match: ((key: any, column: TableColumn<T>) => boolean) | undefined;
 
     constructor(table: Table<T>, definition: TableColumnStyleDefinition<T>) {
-        const { match } = definition;
+        const { key, match } = definition;
         this.table = table;
         this.style = Style.from(definition).asColumnStyle();
         this._classNames = fromClassNames(validTableColumnClassName, definition);
         this.classNames = this._classNames.toArray();
         this.className = this._classNames.toString();
         this.canMatch = typeof match === "function";
+        this.key = key;
         this._match = match;
     }
 

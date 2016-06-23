@@ -29,19 +29,4 @@ export class TableRow<T> {
         this.cells = cells;
         this.dataItem = dataItem;
     }
-
-    isInSection(...sections: TableRowClassName[]) {
-        if (!this._sections) {
-            this._sections = new Set(this.classNames);
-        }
-
-        for (const section of sections) if (section) {
-            if (!this._sections.has(section)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
-

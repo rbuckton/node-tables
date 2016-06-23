@@ -414,82 +414,117 @@ export class Table<T> {
     }
 
     private _matchGroupStyle(rowGroup: TableRowGroup<T>) {
-        const { key, group, group: { depth } } = rowGroup;
-        let bestMatch: TableGroupStyle<T> | undefined;
-        for (const groupStyle of this.groupStyles) {
-            if (groupStyle.canMatchKey) {
-                if (groupStyle.depth === depth && groupStyle.isMatch(key, rowGroup.group)) {
-                    bestMatch = groupStyle;
-                    break;
+        interface Match {
+            groupStyle: TableGroupStyle<T>;
+            count: number;
+            index: number;
+        }
+
+        const { key, group, depth, parent } = rowGroup;
+        const possibleMatches = new Set<Match>(this.groupStyles.map((groupStyle, index) => ({ groupStyle, count: 0, index })));
+        for (const match of Array.from(possibleMatches)) {
+            const groupStyle = match.groupStyle;
+            if (groupStyle.depth === depth) {
+                if (groupStyle.canMatchKey) {
+                    if (groupStyle.isMatch(key, rowGroup.group)) {
+                        match.count++;
+                    }
+                    else {
+                        possibleMatches.delete(match);
+                        continue;
+                    }
                 }
+                match.count++;
             }
-            else if (groupStyle.depth === undefined) {
-                if (bestMatch === undefined) {
-                    bestMatch = groupStyle;
-                }
+            if (groupStyle.depth <= depth) {
+                match.count++;
             }
-            else if (groupStyle.depth <= depth) {
-                if (bestMatch === undefined || bestMatch.depth < groupStyle.depth) {
-                    bestMatch = groupStyle;
-                }
+            else if (!parent) {
+                possibleMatches.delete(match);
+                continue;
             }
         }
-        return bestMatch ? bestMatch.style.inherit(group.style) : group.style;
+
+        const baseStyle = parent && parent._actualStyle || Style.inherit;
+        return from(possibleMatches)
+            .orderBy(x => x.count)
+            .thenBy(x => x.index)
+            .reduce((style, x) => x.groupStyle.style.inherit(style), baseStyle);
     }
 
     private _matchColumnStyle(column: TableColumn<T>) {
         interface Match {
             columnStyle: TableColumnStyle<T>;
             count: number;
+            index: number;
         }
 
         const classNames = column._classNames;
         const key = column.key;
-        const possibleMatches = new Set<Match>(this.columnStyles.map(columnStyle => ({ count: 0, columnStyle })));
+        const possibleMatches = new Set<Match>(this.columnStyles.map((columnStyle, index) => ({ count: 0, columnStyle, index })));
 
         // Proceess initial restrictions based on matching the key.
         for (const match of Array.from(possibleMatches)) if (match) {
             const columnStyle = match.columnStyle;
+            for (const section of columnStyle.classNames) {
+                if (classNames.has(section)) {
+                    match.count++;
+                }
+                else {
+                    possibleMatches.delete(match);
+                    continue;
+                }
+            }
+
+            if (columnStyle.key !== undefined) {
+                if (columnStyle.key === key) {
+                    match.count++;
+                }
+                else {
+                    possibleMatches.delete(match);
+                    continue;
+                }
+            }
+
             if (columnStyle.canMatch) {
                 if (columnStyle.isMatch(key, column)) {
                     match.count++;
                 }
                 else {
                     possibleMatches.delete(match);
-                }
-            }
-
-            for (const section of columnStyle.classNames) {
-                if (!classNames.has(section)) {
-                    possibleMatches.delete(match);
-                }
-                else {
-                    match.count++;
+                    continue;
                 }
             }
         }
 
-        let bestFit: Match | undefined;
-        for (const possibleMatch of possibleMatches) if (possibleMatch) {
-            if (bestFit === undefined || bestFit.count < possibleMatch.count) {
-                bestFit = possibleMatch;
-            }
-        }
-
-        return bestFit ? bestFit.columnStyle.style.inherit(column.style) : column.style;
+        return from(possibleMatches)
+            .orderBy(x => x.count)
+            .thenBy(x => x.index)
+            .reduce((style, x) => x.columnStyle.style.inherit(style), column.style);
     }
 
     private _matchRowStyle(row: TableRow<T>) {
         interface Match {
             rowStyle: TableRowStyle<T>;
             count: number;
+            index: number;
         }
 
         const classNames = row._classNames;
         const dataItem = row.dataItem;
-        const possibleMatches = new Set<Match>(this.rowStyles.map(rowStyle => ({ count: 0, rowStyle })));
+        const possibleMatches = new Set<Match>(this.rowStyles.map((rowStyle, index) => ({ count: 0, rowStyle, index })));
         for (const match of Array.from(possibleMatches) as Iterable<Match>) {
             const rowStyle = match.rowStyle;
+            for (const section of rowStyle.classNames) {
+                if (classNames.has(section)) {
+                    match.count++;
+                }
+                else {
+                    possibleMatches.delete(match);
+                    continue;
+                }
+            }
+
             if (rowStyle.canMatch) {
                 if (rowStyle.isMatch(dataItem, row)) {
                     match.count++;
@@ -499,40 +534,48 @@ export class Table<T> {
                     continue;
                 }
             }
-
-            for (const section of rowStyle.classNames) {
-                if (!classNames.has(section)) {
-                    possibleMatches.delete(match);
-                }
-                else {
-                    match.count++;
-                }
-            }
         }
 
-        let bestFit: Match | undefined;
-        for (const possibleMatch of possibleMatches) if (possibleMatch) {
-            if (bestFit === undefined || bestFit.count < possibleMatch.count) {
-                bestFit = possibleMatch;
-            }
-        }
-
-        return bestFit ? bestFit.rowStyle.style : Style.inherit;
+        return from(possibleMatches)
+            .orderBy(x => x.count)
+            .thenBy(x => x.index)
+            .reduce((style, x) => x.rowStyle.style.inherit(style), Style.inherit);
     }
 
     private _matchCellStyle(cell: TableCell<T>) {
         interface Match {
             cellStyle: TableCellStyle<T>;
             count: number;
+            index: number;
         }
 
         const classNames = cell._classNames;
         const column = cell.column;
         const columnKey = column ? column.key : undefined;
         const dataItem = cell.row.dataItem;
-        const possibleMatches = new Set<Match>(this.cellStyles.map(cellStyle => ({ count: 0, cellStyle })));
+        const possibleMatches = new Set<Match>(this.cellStyles.map((cellStyle, index) => ({ count: 0, cellStyle, index })));
         for (const match of Array.from(possibleMatches) as Iterable<Match>) {
             const cellStyle = match.cellStyle;
+            for (const className of cellStyle.classNames) {
+                if (classNames.has(className)) {
+                    match.count++;
+                }
+                else {
+                    possibleMatches.delete(match);
+                    continue;
+                }
+            }
+
+            if (cellStyle.key !== undefined) {
+                if (cellStyle.key === columnKey) {
+                    match.count++;
+                }
+                else {
+                    possibleMatches.delete(match);
+                    continue;
+                }
+            }
+
             if (cellStyle.canMatch) {
                 if (cellStyle.isMatch(dataItem, columnKey, cell)) {
                     match.count++;
@@ -542,25 +585,12 @@ export class Table<T> {
                     continue;
                 }
             }
-
-            for (const className of cellStyle.classNames) {
-                if (!classNames.has(className)) {
-                    possibleMatches.delete(match);
-                }
-                else {
-                    match.count++;
-                }
-            }
         }
 
-        let bestFit: Match | undefined;
-        for (const possibleMatch of possibleMatches) if (possibleMatch) {
-            if (bestFit === undefined || bestFit.count < possibleMatch.count) {
-                bestFit = possibleMatch;
-            }
-        }
-
-        return bestFit ? bestFit.cellStyle.style : Style.inherit;
+        return from(possibleMatches)
+            .orderBy(x => x.count)
+            .thenBy(x => x.index)
+            .reduce((style, x) => x.cellStyle.style.inherit(style), Style.inherit);
     }
 
     private _applyCellStyle(rowIndex: number, columnIndex: number) {
