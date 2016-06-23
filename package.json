@@ -1,9 +1,18 @@
 {
   "name": "table-style",
+  "author": "Ron Buckton <rbuckton@chronicles.org>",
   "version": "0.1.0",
+  "license": "Apache-2.0",
   "description": "CLI table output formatter",
   "main": "out/lib/index.js",
   "typings": "out/lib/index.d.ts",
+    "bugs": {
+        "url": "https://github.com/rbuckton/table-style/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rbuckton/table-style.git"
+    },
   "dependencies": {
     "iterable-query": "^0.1.0"
   },
@@ -29,7 +38,5 @@
   },
   "engines": {
     "node": ">=6.0.0"
-  },
-  "author": "Ron Buckton <rbuckton@chronicles.org>",
-  "license": "Apache-2.0"
+  }
 }
