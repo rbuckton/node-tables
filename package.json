@@ -6,13 +6,13 @@
   "description": "CLI table output formatter",
   "main": "out/lib/index.js",
   "typings": "out/lib/index.d.ts",
-    "bugs": {
-        "url": "https://github.com/rbuckton/table-style/issues"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/rbuckton/table-style.git"
-    },
+  "bugs": {
+    "url": "https://github.com/rbuckton/table-style/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rbuckton/table-style.git"
+  },
   "dependencies": {
     "iterable-query": "^0.1.0"
   },
@@ -25,6 +25,7 @@
     "@types/merge2": "latest",
     "@types/node": "latest",
     "del": "latest",
+    "fork-pipe": "^1.0.0",
     "gulp": "latest",
     "gulp-sourcemaps": "latest",
     "gulp-typescript": "latest",
