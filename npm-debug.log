@@ -1,0 +1,115 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'C:\\Users\\rbuckton\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'publish' ]
+2 info using npm@3.4.0
+3 info using node@v6.0.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: 'C:\\dev\\table-style',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory C:\Users\rbuckton\AppData\Roaming\npm-cache\table-style\0.1.1\package.tgz not in flight; packing
+9 info lifecycle table-style@0.1.1~prepublish: table-style@0.1.1
+10 silly lifecycle table-style@0.1.1~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ 'C:\\Users\\rbuckton\\AppData\\Roaming\\npm-cache\\table-style\\0.1.1\\package.tgz',
+11 verbose tar pack   'C:\\dev\\table-style' ]
+12 verbose tarball C:\Users\rbuckton\AppData\Roaming\npm-cache\table-style\0.1.1\package.tgz
+13 verbose folder C:\dev\table-style
+14 verbose addLocalTarball adding from inside cache C:\Users\rbuckton\AppData\Roaming\npm-cache\table-style\0.1.1\package.tgz
+15 silly cache afterAdd table-style@0.1.1
+16 verbose afterAdd C:\Users\rbuckton\AppData\Roaming\npm-cache\table-style\0.1.1\package\package.json not in flight; writing
+17 verbose afterAdd C:\Users\rbuckton\AppData\Roaming\npm-cache\table-style\0.1.1\package\package.json written
+18 silly publish { name: 'table-style',
+18 silly publish   author: { name: 'Ron Buckton', email: 'rbuckton@chronicles.org' },
+18 silly publish   version: '0.1.1',
+18 silly publish   license: 'Apache-2.0',
+18 silly publish   description: 'CLI table output formatter',
+18 silly publish   main: 'out/lib/index.js',
+18 silly publish   typings: 'out/lib/index.d.ts',
+18 silly publish   bugs: { url: 'https://github.com/rbuckton/table-style/issues' },
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/rbuckton/table-style.git' },
+18 silly publish   dependencies: { 'iterable-query': '^0.1.1' },
+18 silly publish   devDependencies:
+18 silly publish    { '@types/del': 'latest',
+18 silly publish      '@types/gulp': 'latest',
+18 silly publish      '@types/gulp-sourcemaps': 'latest',
+18 silly publish      '@types/gulp-typescript': 'latest',
+18 silly publish      '@types/lazypipe': 'latest',
+18 silly publish      '@types/merge2': 'latest',
+18 silly publish      '@types/node': 'latest',
+18 silly publish      del: 'latest',
+18 silly publish      'fork-pipe': '^1.0.0',
+18 silly publish      gulp: 'latest',
+18 silly publish      'gulp-sourcemaps': 'latest',
+18 silly publish      'gulp-typescript': 'latest',
+18 silly publish      merge2: 'latest',
+18 silly publish      'ts-node': 'latest',
+18 silly publish      typescript: 'next' },
+18 silly publish   scripts: { build: 'gulp', gulp: 'gulp' },
+18 silly publish   engines: { node: '>=6.0.0' },
+18 silly publish   readme: '# table-style\nCLI Table formatter for NodeJS\n\n# Installing\nFor the latest stable version:\n```\nnpm install table-style\n```\n\n# Usage\n```ts\nimport { Table } from "table-style";\n\ninterface User {\n    name: string;\n    role: string;\n    office: string;\n}\n\nconst table = new Table<User>({\n    border: "single",\n    groups: [\n        { by: user => user.role }\n    ],\n    columns: [\n        { header: "name", expression: x => x.name },\n        { header: "office", expression: x => x.office, align: "right" }\n    ],\n    rowStyles: [\n        { section: "header", border: { bottom: "double" }, foregroundColor: "white" },\n        { section: "body", border: { top: "none", bottom: "none" } }\n    ]\n});\n\ntable.render(users, process.out);\n```\n\n# API\n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: '5f215aabafa8f8b084e6771469188f00b66433e0',
+18 silly publish   homepage: 'https://github.com/rbuckton/table-style#readme',
+18 silly publish   _id: 'table-style@0.1.1',
+18 silly publish   _shasum: 'c480ade465ac10ad9207b68ba5a1cd9587239e8e',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name table-style
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/table-style
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading C:\Users\rbuckton\AppData\Roaming\npm-cache\table-style\0.1.1\package.tgz
+26 verbose request uri https://registry.npmjs.org/table-style
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 5:43:31 PM
+29 verbose request using bearer token for auth
+30 verbose request id 017f615e519c8fb1
+31 http request PUT https://registry.npmjs.org/table-style
+32 http 403 https://registry.npmjs.org/table-style
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '95',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Fri, 01 Jul 2016 00:43:33 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-ord1740-ORD',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1467333812.007658,VS0,VE1134',
+33 verbose headers   vary: 'Accept-Encoding' }
+34 verbose request invalidating C:\Users\rbuckton\AppData\Roaming\npm-cache\registry.npmjs.org\table-style on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: "You cannot publish over the previously published version 0.1.1." : table-style
+36 verbose stack     at makeError (C:\Users\rbuckton\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (C:\Users\rbuckton\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:252:14)
+36 verbose stack     at Request._callback (C:\Users\rbuckton\AppData\Roaming\npm\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
+36 verbose stack     at Request.self.callback (C:\Users\rbuckton\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:198:22)
+36 verbose stack     at emitTwo (events.js:106:13)
+36 verbose stack     at Request.emit (events.js:191:7)
+36 verbose stack     at Request.<anonymous> (C:\Users\rbuckton\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:1082:10)
+36 verbose stack     at emitOne (events.js:101:20)
+36 verbose stack     at Request.emit (events.js:188:7)
+36 verbose stack     at IncomingMessage.<anonymous> (C:\Users\rbuckton\AppData\Roaming\npm\node_modules\npm\node_modules\request\request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid table-style
+39 verbose cwd C:\dev\table-style
+40 error Windows_NT 10.0.10586
+41 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Users\\rbuckton\\AppData\\Roaming\\npm\\node_modules\\npm\\bin\\npm-cli.js" "publish"
+42 error node v6.0.0
+43 error npm  v3.4.0
+44 error code E403
+45 error "You cannot publish over the previously published version 0.1.1." : table-style
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
