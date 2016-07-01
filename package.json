@@ -14,7 +14,7 @@
     "url": "https://github.com/rbuckton/table-style.git"
   },
   "dependencies": {
-    "iterable-query": "^0.1.0"
+    "iterable-query": "^0.1.1"
   },
   "devDependencies": {
     "@types/del": "latest",

@@ -194,8 +194,8 @@ export class Table<T> {
         const eagerItemsSource = Array.from(itemsSource);
 
         let hasColumnHeaders = this._hasColumnHeaders;
-        let tableColumns = this.columns;
-        if (tableColumns.length === 0) {
+        let tableColumns = this._getVisibleColumns();
+        if (this.columns.length === 0) {
             ({ tableColumns, hasColumnHeaders } = this._autoGenerateColumns(eagerItemsSource));
         }
 
@@ -211,6 +211,17 @@ export class Table<T> {
         this._measureRows();
         this._arrangeRows();
         return this._renderRows(out);
+    }
+
+    private _getVisibleColumns() {
+        const visibleColumns: TableColumn<T>[] = [];
+        for (const column of this.columns) {
+            if (column.visible) {
+                visibleColumns.push(column);
+            }
+        }
+
+        return visibleColumns;
     }
 
     private _autoGenerateColumns(itemsSource: Iterable<T>) {
@@ -674,9 +685,7 @@ export class Table<T> {
                 starMaxWidth = addInt32(starMaxWidth, groupLabelAdditionalWidth);
             }
             else {
-                console.log(groupLabelAdditionalWidth);
                 const groupLabelAdditionalWidthPerColumn = Math.floor(groupLabelAdditionalWidth / numColumns);
-                console.log(groupLabelAdditionalWidthPerColumn);
                 let groupLabelAdditionalWidthForColumn = groupLabelAdditionalWidthPerColumn + Math.ceil(groupLabelAdditionalWidth % numColumns);
                 for (let i = numColumns - 1; i >= 0; i--) {
                     const column = columns[i];

@@ -112,6 +112,7 @@ export interface TableColumnDefinition<T> {
     verticalAlign?: VerticalAlignment;
     backgroundColor?: Color;
     foregroundColor?: Color;
+    visible?: boolean;
 }
 
 export interface TableColumnStyleDefinition<T> {

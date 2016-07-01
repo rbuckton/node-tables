@@ -18,6 +18,7 @@ export class TableColumn<T> {
     readonly className: string;
     readonly classNames: ReadonlyCollection<TableColumnClassName>;
     readonly columnIndex: number;
+    readonly visible: boolean;
 
     /*@internal*/ readonly _classNames: ReadonlyClassNames<TableColumnClassName>;
     /*@internal*/ _additionalWidthForGroupLabel: number = 0;
@@ -31,7 +32,7 @@ export class TableColumn<T> {
     private _sections: Set<TableColumnClassName> | undefined;
 
     constructor(table: Table<T>, columnIndex: number, classNames: ReadonlyCollection<TableColumnClassName>, definition: TableColumnDefinition<T>) {
-        const { header, footer, maxWidth = maxInt32, minWidth = 0, width = "auto", key, expression } = definition;
+        const { header, footer, maxWidth = maxInt32, minWidth = 0, width = "auto", key, expression, visible } = definition;
         this.table = table;
         this.columnIndex = columnIndex;
         this.classNames = classNames;
@@ -47,6 +48,7 @@ export class TableColumn<T> {
         this._maxWidth = this.maxWidth;
         this.width = typeof width === "object" ? width : Size.parse(width);
         this._expression = expression;
+        this.visible = visible !== undefined ? visible : true;
         if (this.width.isFixed) {
             this._desiredWidth = this.width.value;
         }
