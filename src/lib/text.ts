@@ -1,5 +1,5 @@
 import { HorizontalAlignment, VerticalAlignment } from "./types";
-
+import stripAnsi = require("strip-ansi");
 export { HorizontalAlignment, VerticalAlignment } from "./types";
 
 export interface TextRange {
@@ -86,26 +86,36 @@ export function repeat(ch: string, size: number) {
 }
 
 export function padLeft(text: string, size: number, ch: string) {
-    while (text.length < size) {
+    ch = stripAnsi(ch);
+
+    let length = stripAnsi(text).length;
+    while (length < size) {
         text = ch + text;
+        length++;
     }
 
     return text;
 }
 
 export function padRight(text: string, size: number, ch: string) {
-    while (text.length < size) {
+    ch = stripAnsi(ch);
+    let length = stripAnsi(text).length;
+    while (length < size) {
         text += ch;
+        length++;
     }
 
     return text;
 }
 
 function padLeftAndRight(text: string, size: number, ch: string) {
+    ch = stripAnsi(ch);
+    let length = stripAnsi(text).length;
     let left = false;
-    while (text.length < size) {
+    while (length < size) {
         text = left ? ch + text : text + ch;
         left = !left;
+        length++;
     }
 
     return text;
@@ -120,7 +130,7 @@ export function wordWrap(text: string, maxWidth: number) {
             line = "";
         }
         else {
-            const fullWidth = word.end - word.pos;
+            const fullWidth = stripAnsi(text.substring(word.pos, word.end)).length;
             if (line.length > 0 && line.length + fullWidth > maxWidth) {
                 if (line || lines.length) lines.push(line);
                 line = text.substring(word.start, word.end);
@@ -153,10 +163,10 @@ export function measureText(text: string, maxWidth: number): TextMeasurements {
             height++;
         }
         else {
-            const tokenWidth = word.end - word.start;
+            const tokenWidth = stripAnsi(text.substring(word.start, word.end)).length;
             if (minWidth < tokenWidth) minWidth = tokenWidth;
 
-            const fullWidth = word.end - word.pos;
+            const fullWidth = stripAnsi(text.substring(word.pos, word.end)).length;
             if (lineWidth > 0 && lineWidth + fullWidth > maxWidth) {
                 if (lineWidth > width) {
                     width = lineWidth;
