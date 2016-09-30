@@ -1,7 +1,7 @@
 {
   "name": "table-style",
   "author": "Ron Buckton <rbuckton@chronicles.org>",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "license": "Apache-2.0",
   "description": "CLI table output formatter",
   "main": "out/lib/index.js",
@@ -14,7 +14,6 @@
     "url": "https://github.com/rbuckton/table-style.git"
   },
   "dependencies": {
-    "ansi-regex": "^2.0.0",
     "iterable-query": "^0.1.0",
     "strip-ansi": "^3.0.1"
   },
@@ -22,16 +21,14 @@
     "@types/del": "latest",
     "@types/gulp": "latest",
     "@types/gulp-sourcemaps": "latest",
-    "@types/gulp-typescript": "latest",
     "@types/lazypipe": "latest",
     "@types/merge2": "latest",
     "@types/node": "latest",
+    "@types/strip-ansi": "file:external\\strip-ansi",
     "del": "latest",
-    "fork-pipe": "^1.0.0",
     "gulp": "latest",
-    "gulp-sourcemaps": "latest",
-    "gulp-typescript": "latest",
-    "merge2": "latest",
+    "gulp-sourcemaps": "^2.0.0-alpha",
+    "gulp-tsb": "git://github.com/rbuckton/gulp-tsb.git#srcDestMethods",
     "ts-node": "latest",
     "typescript": "next"
   },

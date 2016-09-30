@@ -15,9 +15,6 @@ export type TableColumnClassName = "first-column" | "last-column" | "even-column
 export type TableRowClassName = "header" | "footer" | "group" | "body" | "first-row" | "last-row" | "even-row" | "odd-row";
 export type TableCellClassName = TableRowClassName | TableColumnClassName;
 
-export interface ReadonlyCollection<T> extends ReadonlyArray<T>, Iterable<T> {
-}
-
 export interface ReadonlyClassNames<T extends string> extends Iterable<T> {
     readonly size: number;
     has(className: T): boolean;

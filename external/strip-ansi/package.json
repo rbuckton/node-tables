@@ -1,0 +1,6 @@
+{
+    "name": "@types/strip-ansi",
+    "version": "3.0.0",
+    "private": true,
+    "types": "index.d.ts"
+}

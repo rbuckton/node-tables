@@ -1,4 +1,4 @@
-import { ReadonlyCollection, ReadonlyClassNames, TableColumnDefinition, TableColumnClassName } from "./types";
+import { ReadonlyClassNames, TableColumnDefinition, TableColumnClassName } from "./types";
 import { Style, StyleDefinition, ClassNames } from "./style";
 import { Size, } from "./size";
 import { Table } from "./table";
@@ -16,7 +16,7 @@ export class TableColumn<T> {
     readonly minWidth: number;
     readonly key: any;
     readonly className: string;
-    readonly classNames: ReadonlyCollection<TableColumnClassName>;
+    readonly classNames: ReadonlyArray<TableColumnClassName>;
     readonly columnIndex: number;
     readonly visible: boolean;
 
@@ -31,7 +31,7 @@ export class TableColumn<T> {
     private _expression: ((x: T, key: any) => any) | undefined;
     private _sections: Set<TableColumnClassName> | undefined;
 
-    constructor(table: Table<T>, columnIndex: number, classNames: ReadonlyCollection<TableColumnClassName>, definition: TableColumnDefinition<T>) {
+    constructor(table: Table<T>, columnIndex: number, classNames: ReadonlyArray<TableColumnClassName>, definition: TableColumnDefinition<T>) {
         const { header, footer, maxWidth = maxInt32, minWidth = 0, width = "auto", key, expression, visible } = definition;
         this.table = table;
         this.columnIndex = columnIndex;

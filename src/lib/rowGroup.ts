@@ -1,4 +1,3 @@
-import { ReadonlyCollection } from "./types";
 import { Style } from "./style";
 import { TableGroup } from "./group";
 import { TableRow } from "./row";
@@ -9,13 +8,13 @@ export class TableRowGroup<T> {
     readonly group: TableGroup<T>;
     readonly depth: number;
     readonly parent: TableRowGroup<T> | undefined;
-    readonly children: ReadonlyCollection<TableRowGroup<T>>;
+    readonly children: ReadonlyArray<TableRowGroup<T>>;
     readonly key: any;
-    readonly rows: ReadonlyCollection<TableRow<T>>;
+    readonly rows: ReadonlyArray<TableRow<T>>;
 
     /*@internal*/ _actualStyle: Style | undefined;
 
-    constructor(table: Table<T>, group: TableGroup<T>, parent: TableRowGroup<T> | undefined, children: ReadonlyCollection<TableRowGroup<T>>, key: any, rows: ReadonlyCollection<TableRow<T>>) {
+    constructor(table: Table<T>, group: TableGroup<T>, parent: TableRowGroup<T> | undefined, children: ReadonlyArray<TableRowGroup<T>>, key: any, rows: ReadonlyArray<TableRow<T>>) {
         this.table = table;
         this.group = group;
         this.parent = parent;

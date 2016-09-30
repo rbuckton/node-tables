@@ -1,4 +1,4 @@
-import { ReadonlyCollection, ReadonlyClassNames, TableCellStyleDefinition, TableCellClassName } from "./types";
+import { ReadonlyClassNames, TableCellStyleDefinition, TableCellClassName } from "./types";
 import { Border } from "./border";
 import { Style, fromClassNames } from "./style";
 import { TableCell } from "./cell";
@@ -10,7 +10,7 @@ export class TableCellStyle<T> {
     readonly table: Table<T>;
     readonly style: Style;
     readonly key: any;
-    readonly classNames: ReadonlyCollection<TableCellClassName>;
+    readonly classNames: ReadonlyArray<TableCellClassName>;
     readonly canMatch: boolean;
 
     /*@internal*/ _classNames: ReadonlyClassNames<TableCellClassName>;

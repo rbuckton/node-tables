@@ -1,4 +1,4 @@
-import { ReadonlyCollection, ReadonlyClassNames, TableColumnStyleDefinition, TableColumnClassName } from "./types";
+import { ReadonlyClassNames, TableColumnStyleDefinition, TableColumnClassName } from "./types";
 import { Style, fromClassNames } from "./style";
 import { Table } from "./table";
 import { TableColumn } from "./column";
@@ -9,7 +9,7 @@ export class TableColumnStyle<T> {
     readonly table: Table<T>;
     readonly style: Style;
     readonly className: string;
-    readonly classNames: ReadonlyCollection<TableColumnClassName>;
+    readonly classNames: ReadonlyArray<TableColumnClassName>;
     readonly key: any;
     readonly canMatch: boolean;
 

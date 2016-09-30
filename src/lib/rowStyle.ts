@@ -1,4 +1,4 @@
-import { ReadonlyCollection, ReadonlyClassNames, TableRowStyleDefinition, TableRowClassName } from "./types";
+import { ReadonlyClassNames, TableRowStyleDefinition, TableRowClassName } from "./types";
 import { Style, fromClassNames } from "./style";
 import { TableRow } from "./row";
 import { Table } from "./table";
@@ -9,7 +9,7 @@ export class TableRowStyle<T> {
     readonly table: Table<T>;
     readonly style: Style;
     readonly className: string;
-    readonly classNames: ReadonlyCollection<TableRowClassName>;
+    readonly classNames: ReadonlyArray<TableRowClassName>;
     readonly canMatch: boolean;
 
     /*@internal*/ _classNames: ReadonlyClassNames<TableRowClassName>;

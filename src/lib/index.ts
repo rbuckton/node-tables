@@ -1,4 +1,3 @@
-export { ReadonlyCollection } from "./types";
 export { Border, BorderDefinition, BorderStyle } from "./border";
 export { Color } from "./color";
 export { HorizontalAlignment, VerticalAlignment } from "./text";

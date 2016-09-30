@@ -1,4 +1,4 @@
-import { ReadonlyCollection, TableGroupStyleDefinition } from "./types";
+import { TableGroupStyleDefinition } from "./types";
 import { Style } from "./style";
 import { TableGroup } from "./group";
 import { Table } from "./table";

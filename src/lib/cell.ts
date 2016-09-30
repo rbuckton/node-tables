@@ -1,4 +1,4 @@
-import { ReadonlyCollection, ReadonlyClassNames, TableCellClassName } from "./types";
+import { ReadonlyClassNames, TableCellClassName } from "./types";
 import { Style, ClassNames } from "./style";
 import { Border } from "./border";
 import { TableRowGroup } from "./rowGroup";
@@ -19,7 +19,7 @@ export class TableCell<T> {
     readonly rowSpan: number;
     readonly text: string;
     readonly className: string;
-    readonly classNames: ReadonlyCollection<TableCellClassName>;
+    readonly classNames: ReadonlyArray<TableCellClassName>;
 
     /*@internal*/ readonly _classNames: ReadonlyClassNames<TableCellClassName>;
     /*@internal*/ readonly _minWidth: number;
@@ -29,7 +29,7 @@ export class TableCell<T> {
     /*@internal*/ _actualStyle: Style | undefined;
     /*@internal*/ _lines: string[] | undefined;
 
-    constructor(table: Table<T>, group: TableRowGroup<T> | undefined, row: TableRow<T>, column: TableColumn<T> | undefined, columnSpan: number, classNames: ReadonlyCollection<TableCellClassName>, text: string) {
+    constructor(table: Table<T>, group: TableRowGroup<T> | undefined, row: TableRow<T>, column: TableColumn<T> | undefined, columnSpan: number, classNames: ReadonlyArray<TableCellClassName>, text: string) {
         this.table = table;
         this.group = group;
         this.row = row;

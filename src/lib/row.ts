@@ -1,4 +1,4 @@
-import { ReadonlyCollection, ReadonlyClassNames, TableRowClassName } from "./types";
+import { ReadonlyClassNames, TableRowClassName } from "./types";
 import { Style, ClassNames } from "./style";
 import { TableRowGroup } from "./rowGroup";
 import { Table } from "./table";
@@ -10,8 +10,8 @@ export class TableRow<T> {
     readonly table: Table<T>;
     readonly group: TableRowGroup<T> | undefined;
     readonly className: string;
-    readonly classNames: ReadonlyCollection<TableRowClassName>;
-    readonly cells: ReadonlyCollection<TableCell<T>>;
+    readonly classNames: ReadonlyArray<TableRowClassName>;
+    readonly cells: ReadonlyArray<TableCell<T>>;
     readonly dataItem: T | undefined;
 
     /*@internal*/ readonly _classNames: ReadonlyClassNames<TableRowClassName>;
@@ -20,7 +20,7 @@ export class TableRow<T> {
 
     private _sections: Set<TableRowClassName> | undefined;
 
-    constructor(table: Table<T>, group: TableRowGroup<T> | undefined, classNames: ReadonlyCollection<TableRowClassName>, cells: ReadonlyCollection<TableCell<T>>, dataItem: T | undefined) {
+    constructor(table: Table<T>, group: TableRowGroup<T> | undefined, classNames: ReadonlyArray<TableRowClassName>, cells: ReadonlyArray<TableCell<T>>, dataItem: T | undefined) {
         this.table = table;
         this.group = group;
         this.classNames = classNames;

@@ -1,7 +1,7 @@
 import * as tty from "tty";
 import * as os from "os";
 import { from } from "iterable-query";
-import { ReadonlyCollection, ReadonlyClassNames, TableDefinition, TableColumnClassName, TableRowClassName, TableCellClassName } from "./types";
+import { ReadonlyClassNames, TableDefinition, TableColumnClassName, TableRowClassName, TableCellClassName } from "./types";
 import { Border } from "./border";
 import { StringWriter } from "./writer";
 import { Color, ColorStringWriter } from "./color";
@@ -24,12 +24,12 @@ export { TableDefinition } from "./types";
 export class Table<T> {
     readonly style: Style;
     readonly padding: number;
-    readonly groups: ReadonlyCollection<TableGroup<T>>;
-    readonly columns: ReadonlyCollection<TableColumn<T>>;
-    readonly groupStyles: ReadonlyCollection<TableGroupStyle<T>>;
-    readonly columnStyles: ReadonlyCollection<TableColumnStyle<T>>;
-    readonly rowStyles: ReadonlyCollection<TableRowStyle<T>>;
-    readonly cellStyles: ReadonlyCollection<TableCellStyle<T>>;
+    readonly groups: ReadonlyArray<TableGroup<T>>;
+    readonly columns: ReadonlyArray<TableColumn<T>>;
+    readonly groupStyles: ReadonlyArray<TableGroupStyle<T>>;
+    readonly columnStyles: ReadonlyArray<TableColumnStyle<T>>;
+    readonly rowStyles: ReadonlyArray<TableRowStyle<T>>;
+    readonly cellStyles: ReadonlyArray<TableCellStyle<T>>;
     readonly width: number | undefined;
     readonly useColor: boolean | undefined;
 
@@ -38,9 +38,9 @@ export class Table<T> {
     private _hasColumnHeaders: boolean;
     private _hasColumnFooters: boolean;
     private _hasStarColumns: boolean;
-    private _rowGroups: ReadonlyCollection<TableRowGroup<T>> | undefined;
-    private _columns: ReadonlyCollection<TableColumn<T>> | undefined;
-    private _rows: ReadonlyCollection<TableRow<T>> | undefined;
+    private _rowGroups: ReadonlyArray<TableRowGroup<T>> | undefined;
+    private _columns: ReadonlyArray<TableColumn<T>> | undefined;
+    private _rows: ReadonlyArray<TableRow<T>> | undefined;
     private _currentStyle: Style | undefined;
     private _viewportWidth: number | undefined;
     private _maxGroupDepth: number | undefined;
